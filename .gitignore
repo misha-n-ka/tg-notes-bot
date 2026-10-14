@@ -9,6 +9,9 @@
 .venv/
 venv/
 env/
+# Project-local development tools and managed Python
+/.tools/
+/.python/
 
 # Python bytecode and tool caches
 __pycache__/
