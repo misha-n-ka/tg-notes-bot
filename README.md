@@ -57,6 +57,11 @@ export DATABASE_PATH='data/notes.sqlite3'
 uv build --no-build-isolation
 ```
 
+Если uv установлен локально и отсутствует в PATH, для сборки выполнить
+`UV_CACHE_DIR="$PWD/.uv-cache" .tools/uv/bin/uv build --no-build-isolation`.
+В конфигурации pytest корневой `.env` явно исключён из обхода: файловый
+запрет доступа действует и при проверке типа файла, ещё до чтения содержимого.
+
 Сборка создаёт sdist и wheel в `dist/`, используя build backend `uv_build`,
 установленный вместе с dev-зависимостями. Тесты настроек используют вымышленные
 значения и не обращаются к Telegram.

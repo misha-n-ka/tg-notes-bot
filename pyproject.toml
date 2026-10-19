@@ -19,6 +19,7 @@ module-root = ""
 source-include = ["tests/**"]
 
 [tool.pytest.ini_options]
+addopts = "--ignore=.env"
 testpaths = ["tests"]
 pythonpath = ["."]
 
