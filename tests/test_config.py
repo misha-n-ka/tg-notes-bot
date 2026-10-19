@@ -12,7 +12,7 @@ def test_missing_token(monkeypatch: pytest.MonkeyPatch, token: str | None) -> No
     else:
         monkeypatch.setenv("BOT_TOKEN", token)
 
-    with pytest.raises(ValueError, match="BOT_TOKEN"):
+    with pytest.raises(ValueError, match=r"\bBOT_TOKEN\b"):
         load_settings()
 
 
