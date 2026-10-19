@@ -1,0 +1,8 @@
+default_permissions = "notes-bot"
+
+[permissions.notes-bot]
+description = "Workspace access with the project .env denied."
+extends = ":workspace"
+
+[permissions.notes-bot.filesystem.":workspace_roots"]
+".env" = "deny"
