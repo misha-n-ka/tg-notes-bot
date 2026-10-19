@@ -1,5 +1,20 @@
-# Подтверждения команд вне sandbox; AGENTS.md остаётся обязательным.
+# Запреты и подтверждения команд вне sandbox; AGENTS.md остаётся обязательным.
 # Не содержит allow и не заменяет явное поручение пользователя.
+# Только точные префиксы: это не файловый запрет для всех инструментов.
+prefix_rule(
+    pattern = [["cat", "head", "tail", "less", "more", "bat", "source", "."], [".env", "./.env"]],
+    decision = "forbidden",
+    justification = "Чтение .env агентом запрещено. Для изучения настроек используйте README.md и notes_bot/config.py.",
+    match = ["cat .env", "head ./.env", "tail .env", "less .env", "more .env", "bat .env", "source .env", ". ./.env"],
+    not_match = ["cat README.md", "head notes_bot/config.py"],
+)
+prefix_rule(
+    pattern = [["cat", "head", "tail", "less", "more", "bat"], "--", [".env", "./.env"]],
+    decision = "forbidden",
+    justification = "Чтение .env агентом запрещено. Для изучения настроек используйте README.md и notes_bot/config.py.",
+    match = ["cat -- .env", "head -- ./.env", "tail -- .env", "less -- .env", "more -- .env", "bat -- .env"],
+    not_match = ["cat -- README.md"],
+)
 prefix_rule(
     pattern = ["git", ["add", "commit", "push", "merge"]],
     decision = "prompt",
