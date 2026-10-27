@@ -1,6 +1,48 @@
-# Запреты и подтверждения команд вне sandbox; AGENTS.md остаётся обязательным.
-# Не содержит allow и не заменяет явное поручение пользователя.
+# Разрешения, запреты и подтверждения команд вне sandbox; AGENTS.md остаётся обязательным.
+# Не заменяет явное поручение пользователя.
 # Только точные префиксы: это не файловый запрет для всех инструментов.
+prefix_rule(
+    pattern = [["ruff", ".venv/bin/ruff"], "check"],
+    decision = "allow",
+    justification = "Запуск линтера Ruff разрешён.",
+    match = [".venv/bin/ruff check .", "ruff check notes_bot tests"],
+    not_match = ["ruff format .", "ruff clean"],
+)
+prefix_rule(
+    pattern = [["ruff", ".venv/bin/ruff"], "format", "--check"],
+    decision = "allow",
+    justification = "Проверка форматирования Ruff без изменения файлов разрешена.",
+    match = [".venv/bin/ruff format --check .", "ruff format --check tests"],
+    not_match = ["ruff format ."],
+)
+prefix_rule(
+    pattern = [".venv/bin/python", "-m", "pytest"],
+    decision = "allow",
+    justification = "Запуск тестов pytest в окружении проекта разрешён.",
+    match = [".venv/bin/python -m pytest -q", ".venv/bin/python -m pytest tests/test_config.py -q"],
+    not_match = [".venv/bin/python -m notes_bot", ".venv/bin/python -c 'print(1)'"],
+)
+prefix_rule(
+    pattern = [["pytest", ".venv/bin/pytest"]],
+    decision = "allow",
+    justification = "Прямой запуск установленного pytest разрешён.",
+    match = ["pytest -q", ".venv/bin/pytest tests -q"],
+    not_match = ["uv run pytest"],
+)
+prefix_rule(
+    pattern = ["git", ["status", "diff", "log", "show", "ls-files"]],
+    decision = "allow",
+    justification = "Просмотр состояния, изменений, истории и списка файлов Git разрешён.",
+    match = ["git status --short", "git diff --check", "git log -1", "git show --stat HEAD", "git ls-files"],
+    not_match = ["git add .", "git commit -m example", "git push", "git merge main", "git reset --hard", "git clean -fd"],
+)
+prefix_rule(
+    pattern = ["git", "branch", "--show-current"],
+    decision = "allow",
+    justification = "Просмотр имени текущей ветки разрешён.",
+    match = ["git branch --show-current"],
+    not_match = ["git branch feature", "git branch -D feature"],
+)
 prefix_rule(
     pattern = ["cat", "private/demo.txt"],
     decision = "forbidden",
