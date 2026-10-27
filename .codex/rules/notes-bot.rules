@@ -2,6 +2,13 @@
 # Не содержит allow и не заменяет явное поручение пользователя.
 # Только точные префиксы: это не файловый запрет для всех инструментов.
 prefix_rule(
+    pattern = ["cat", "private/demo.txt"],
+    decision = "forbidden",
+    justification = "Демонстрационный запрет чтения private/demo.txt. Используйте public/demo.txt.",
+    match = ["cat private/demo.txt"],
+    not_match = ["cat public/demo.txt"],
+)
+prefix_rule(
     pattern = [["cat", "head", "tail", "less", "more", "bat", "source", "."], [".env", "./.env"]],
     decision = "forbidden",
     justification = "Чтение .env агентом запрещено. Для изучения настроек используйте README.md и notes_bot/config.py.",
