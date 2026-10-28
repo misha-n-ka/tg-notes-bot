@@ -6,3 +6,7 @@ extends = ":workspace"
 
 [permissions.notes-bot.filesystem.":workspace_roots"]
 ".env" = "deny"
+
+[marketplaces.claude-mem-local]
+source_type = "local"
+enabled = true
